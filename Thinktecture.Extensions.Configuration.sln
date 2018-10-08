@@ -13,7 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{B66D7E1E-B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{34773EDF-B53E-49D6-8586-93D838AE023F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{815137E4-6499-47FA-8191-C646BC474B54}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinktecture.Extensions.Configuration.Legacy", "src\Thinktecture.Extensions.Configuration.Legacy\Thinktecture.Extensions.Configuration.Legacy.csproj", "{DD55F780-2484-4ECA-ACC4-075A86F5097A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{C4759C6B-1C6F-4856-879B-52050490651F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinktecture.Extensions.Configuration.Legacy.Tests", "tests\Thinktecture.Extensions.Configuration.Legacy.Tests\Thinktecture.Extensions.Configuration.Legacy.Tests.csproj", "{FAA890EB-A927-4171-BD27-CFB78ECAE0F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinktecture.Extensions.Configuration.Legacy.Samples", "Thinktecture.Extensions.Configuration.Legacy.Samples\Thinktecture.Extensions.Configuration.Legacy.Samples.csproj", "{A9FCE20E-8F49-49F3-9BC6-4FA754D0F54E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,11 +27,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD55F780-2484-4ECA-ACC4-075A86F5097A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD55F780-2484-4ECA-ACC4-075A86F5097A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD55F780-2484-4ECA-ACC4-075A86F5097A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD55F780-2484-4ECA-ACC4-075A86F5097A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAA890EB-A927-4171-BD27-CFB78ECAE0F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAA890EB-A927-4171-BD27-CFB78ECAE0F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAA890EB-A927-4171-BD27-CFB78ECAE0F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAA890EB-A927-4171-BD27-CFB78ECAE0F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9FCE20E-8F49-49F3-9BC6-4FA754D0F54E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9FCE20E-8F49-49F3-9BC6-4FA754D0F54E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9FCE20E-8F49-49F3-9BC6-4FA754D0F54E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9FCE20E-8F49-49F3-9BC6-4FA754D0F54E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{DD55F780-2484-4ECA-ACC4-075A86F5097A} = {F2EF52EE-D542-49B4-A80B-6DFE4BE457C9}
+		{FAA890EB-A927-4171-BD27-CFB78ECAE0F8} = {34773EDF-B53E-49D6-8586-93D838AE023F}
+		{A9FCE20E-8F49-49F3-9BC6-4FA754D0F54E} = {C4759C6B-1C6F-4856-879B-52050490651F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C4810020-FFB4-4853-B6A7-0C8B1A63C448}
