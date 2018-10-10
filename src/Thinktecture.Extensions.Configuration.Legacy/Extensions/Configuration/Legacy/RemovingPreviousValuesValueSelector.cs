@@ -6,11 +6,11 @@ using JetBrains.Annotations;
 
 namespace Thinktecture.Extensions.Configuration.Legacy
 {
-   internal class NullifyingPreviousValuesValueSelector : IValueSelector
+   internal class RemovingPreviousValuesValueSelector : IValueSelector
    {
       private readonly string _configurationPathPrefix;
 
-      public NullifyingPreviousValuesValueSelector([NotNull] string configurationPathPrefix)
+      public RemovingPreviousValuesValueSelector([NotNull] string configurationPathPrefix)
       {
          _configurationPathPrefix = configurationPathPrefix ?? throw new ArgumentNullException(nameof(configurationPathPrefix));
       }
@@ -21,7 +21,7 @@ namespace Thinktecture.Extensions.Configuration.Legacy
          foreach (var key in data.Keys.ToList())
          {
             if (key.StartsWith(_configurationPathPrefix, StringComparison.OrdinalIgnoreCase))
-               data[key] = null;
+               data.Remove(key);
          }
       }
    }

@@ -36,7 +36,7 @@ namespace Thinktecture.Extensions.Configuration.Legacy.LegacyConfigurationProvid
          Action action = () => Parse(@"
 <configuration>
    <appSettings>
-      <add value=""Value1"" />
+      <add />
    </appSettings>
 </configuration>");
 
@@ -87,7 +87,7 @@ namespace Thinktecture.Extensions.Configuration.Legacy.LegacyConfigurationProvid
       }
 
       [Fact]
-      public void Should_set_value_to_null_if_key_is_not_present()
+      public void Should_do_nothing_if_key_is_not_present()
       {
          Parse(@"
 <configuration>
@@ -96,12 +96,11 @@ namespace Thinktecture.Extensions.Configuration.Legacy.LegacyConfigurationProvid
    </appSettings>
 </configuration>");
 
-         GetData().Should().HaveCount(1)
-                  .And.Contain("appSettings:Key1", null);
+         GetData().Should().BeEmpty();
       }
 
       [Fact]
-      public void Should_set_value_to_null_if_key_is_present()
+      public void Should_remove_item_with_provided_key()
       {
          Parse(@"
 <configuration>
@@ -111,8 +110,22 @@ namespace Thinktecture.Extensions.Configuration.Legacy.LegacyConfigurationProvid
    </appSettings>
 </configuration>");
 
+         GetData().Should().HaveCount(0);
+      }
+
+      [Fact]
+      public void Should_not_touch_other_keys()
+      {
+         Parse(@"
+<configuration>
+   <appSettings>
+      <add key=""Key1"" value=""Value1"" />
+      <remove key=""Key2"" />
+   </appSettings>
+</configuration>");
+
          GetData().Should().HaveCount(1)
-                  .And.Contain("appSettings:Key1", null);
+                  .And.Contain("appSettings:Key1", "Value1");
       }
 
       [Fact]
@@ -144,7 +157,7 @@ namespace Thinktecture.Extensions.Configuration.Legacy.LegacyConfigurationProvid
       }
 
       [Fact]
-      public void Should_set_value_to_null_before_clear()
+      public void Should_remove_previously_set_values()
       {
          Parse(@"
 <configuration>
@@ -154,8 +167,7 @@ namespace Thinktecture.Extensions.Configuration.Legacy.LegacyConfigurationProvid
    </appSettings>
 </configuration>");
 
-         GetData().Should().HaveCount(1)
-                  .And.Contain("appSettings:Key1", null);
+         GetData().Should().HaveCount(0);
       }
 
       [Fact]
