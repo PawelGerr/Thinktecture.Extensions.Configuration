@@ -40,11 +40,11 @@ namespace Thinktecture.Extensions.Configuration.Legacy
          _valueSelectorByPath = new Dictionary<string, IValueSelector>(StringComparer.OrdinalIgnoreCase)
                                 {
                                    ["appSettings:add"] = new AttributeScalarValueSelector("value", true),
-                                   ["appSettings:remove"] = new RemovingValueSelector(),
+                                   ["appSettings:remove"] = new RemovingPreviousParentValuesValueSelector(),
                                    ["appSettings:clear"] = new RemovingPreviousValuesValueSelector("appSettings:"),
                                    ["connectionStrings:add"] = new DefaultAttributeValueSelector("name"),
-                                   ["connectionStrings:remove"] = new RemovingValueSelector(),
-                                   ["connectionStrings:clear"] = new RemovingPreviousValuesValueSelector("appSettings:")
+                                   ["connectionStrings:remove"] = new RemovingPreviousParentValuesValueSelector(),
+                                   ["connectionStrings:clear"] = new RemovingPreviousValuesValueSelector("connectionStrings:")
                                 };
       }
 
