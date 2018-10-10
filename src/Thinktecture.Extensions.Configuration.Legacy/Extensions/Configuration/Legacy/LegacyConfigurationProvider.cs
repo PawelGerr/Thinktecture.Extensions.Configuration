@@ -23,7 +23,8 @@ namespace Thinktecture.Extensions.Configuration.Legacy
                                {
                                   "runtime:assemblyBinding",
                                   "runtime:assemblyBinding:dependentAssembly",
-                                  "system.serviceModel:client:endpoint",
+                                  "system.serviceModel:services:service:endpoint",
+                                  "system.serviceModel:client:endpoint"
                                };
          _keyAttributeByPath = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
                                {
@@ -31,6 +32,7 @@ namespace Thinktecture.Extensions.Configuration.Legacy
                                   ["appSettings:remove"] = "key",
                                   ["connectionStrings:add"] = "name",
                                   ["connectionStrings:remove"] = "name",
+                                  ["system.serviceModel:services:service"] = "name",
                                   ["system.serviceModel:extensions:bindingElementExtensions:add"] = "key",
                                   ["system.serviceModel:bindings:basicHttpBinding:binding"] = "name",
                                   ["system.serviceModel:bindings:customBinding:binding"] = "name",
@@ -44,7 +46,8 @@ namespace Thinktecture.Extensions.Configuration.Legacy
                                    ["appSettings:clear"] = new RemovingPreviousValuesValueSelector("appSettings:"),
                                    ["connectionStrings:add"] = new DefaultAttributeValueSelector("name"),
                                    ["connectionStrings:remove"] = new RemovingPreviousParentValuesValueSelector(),
-                                   ["connectionStrings:clear"] = new RemovingPreviousValuesValueSelector("connectionStrings:")
+                                   ["connectionStrings:clear"] = new RemovingPreviousValuesValueSelector("connectionStrings:"),
+                                   ["system.serviceModel:services:service"] = new DefaultAttributeValueSelector("name")
                                 };
       }
 
