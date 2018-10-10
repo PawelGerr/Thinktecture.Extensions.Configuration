@@ -13,18 +13,19 @@ namespace Thinktecture.Extensions.Configuration.Legacy
    /// </summary>
    public class LegacyConfigurationProvider : FileConfigurationProvider
    {
-      private static readonly HashSet<string> _pathsOfCollections;
+      private static readonly List<ICollectionElement> _collectionElements;
       private static readonly Dictionary<string, string> _keyAttributeByPath;
-      private static Dictionary<string, IValueSelector> _valueSelectorByPath;
+      private static readonly Dictionary<string, IValueSelector> _valueSelectorByPath;
 
       static LegacyConfigurationProvider()
       {
-         _pathsOfCollections = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+         _collectionElements = new List<ICollectionElement>()
                                {
-                                  "runtime:assemblyBinding",
-                                  "runtime:assemblyBinding:dependentAssembly",
-                                  "system.serviceModel:services:service:endpoint",
-                                  "system.serviceModel:client:endpoint"
+                                  new StaticPathCollectionElement("runtime:assemblyBinding"),
+                                  new StaticPathCollectionElement("runtime:assemblyBinding:dependentAssembly"),
+                                  new StaticPathCollectionElement("system.serviceModel:services:service:endpoint"),
+                                  new StaticPathCollectionElement("system.serviceModel:client:endpoint"),
+                                  new WildcardCollectionElement("system.serviceModel:bindings:*:binding")
                                };
          _keyAttributeByPath = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
                                {
@@ -33,10 +34,7 @@ namespace Thinktecture.Extensions.Configuration.Legacy
                                   ["connectionStrings:add"] = "name",
                                   ["connectionStrings:remove"] = "name",
                                   ["system.serviceModel:services:service"] = "name",
-                                  ["system.serviceModel:extensions:bindingElementExtensions:add"] = "key",
-                                  ["system.serviceModel:bindings:basicHttpBinding:binding"] = "name",
-                                  ["system.serviceModel:bindings:customBinding:binding"] = "name",
-                                  ["system.serviceModel:bindings:netTcpBinding:binding"] = "name"
+                                  ["system.serviceModel:extensions:bindingElementExtensions:add"] = "key"
                                };
 
          _valueSelectorByPath = new Dictionary<string, IValueSelector>(StringComparer.OrdinalIgnoreCase)
@@ -173,7 +171,7 @@ namespace Thinktecture.Extensions.Configuration.Legacy
 
          var configPath = parent.BuildConfigurationPath(childName);
 
-         if (_pathsOfCollections.Contains(xmlPath))
+         if (IsCollection(xmlPath))
          {
             if (!parent.ChildIndexesByName.TryGetValue(childName, out var index))
                index = -1;
@@ -183,6 +181,17 @@ namespace Thinktecture.Extensions.Configuration.Legacy
          }
 
          return new LegacyConfigurationItem(configPath, xmlPath);
+      }
+
+      private static bool IsCollection(string xmlPath)
+      {
+         foreach (var collectionElement in _collectionElements)
+         {
+            if (collectionElement.IsCollection(xmlPath))
+               return true;
+         }
+
+         return false;
       }
 
       private static void ProcessAttributes([NotNull] XmlReader reader,
