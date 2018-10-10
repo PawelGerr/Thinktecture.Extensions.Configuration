@@ -21,9 +21,9 @@ namespace Thinktecture.Extensions.Configuration.Legacy
       {
          _pathsOfCollections = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
                                {
-                                  "system.serviceModel:client:endpoint",
                                   "runtime:assemblyBinding",
-                                  "runtime:assemblyBinding:dependentAssembly"
+                                  "runtime:assemblyBinding:dependentAssembly",
+                                  "system.serviceModel:client:endpoint",
                                };
          _keyAttributeByPath = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
                                {
