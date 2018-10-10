@@ -6,10 +6,17 @@ using JetBrains.Annotations;
 
 namespace Thinktecture.Extensions.Configuration.Legacy
 {
-   internal class RemovingPreviousValuesValueSelector : IValueSelector
+   /// <summary>
+   /// Removes all values from configuration with a specific prefix.
+   /// </summary>
+   public class RemovingPreviousValuesValueSelector : IValueSelector
    {
       private readonly string _configurationPathPrefix;
 
+      /// <summary>
+      /// Initializes new instance of <see cref="RemovingPreviousValuesValueSelector"/>.
+      /// </summary>
+      /// <param name="configurationPathPrefix">The prefix to look for.</param>
       public RemovingPreviousValuesValueSelector([NotNull] string configurationPathPrefix)
       {
          _configurationPathPrefix = configurationPathPrefix ?? throw new ArgumentNullException(nameof(configurationPathPrefix));

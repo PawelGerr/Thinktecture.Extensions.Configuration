@@ -3,7 +3,10 @@ using JetBrains.Annotations;
 
 namespace Thinktecture.Extensions.Configuration.Legacy
 {
-   internal interface ILegacyConfigurationItem
+   /// <summary>
+   /// Currently processing element.
+   /// </summary>
+   public interface ILegacyConfigurationItem
    {
       /// <summary>
       /// Path to use for population of <see cref="Microsoft.Extensions.Configuration.IConfiguration"/>.
