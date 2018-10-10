@@ -85,7 +85,7 @@ namespace Thinktecture.Extensions.Configuration.Legacy
 
          using (var reader = CreateReader(stream))
          {
-            var preNodeType = FastForwardToRootElement(reader, stack);
+            FastForwardToRootElement(reader, stack);
 
             while (reader.Read())
             {
@@ -96,7 +96,7 @@ namespace Thinktecture.Extensions.Configuration.Legacy
                      break;
 
                   case XmlNodeType.EndElement:
-                     ReadElementEnd(stack, preNodeType, configValues);
+                     stack.Pop();
                      break;
 
                   case XmlNodeType.CDATA:
@@ -115,36 +115,22 @@ namespace Thinktecture.Extensions.Configuration.Legacy
                   default:
                      throw new FormatException($"The node of type \"{reader.NodeType}\" is not supported.{reader.GetLineInfo()}");
                }
-
-               preNodeType = reader.NodeType;
-
-               // If this element is a self-closing element,
-               // we pretend that we just processed an EndElement node
-               // because a self-closing element contains an end within itself
-               if (preNodeType == XmlNodeType.Element && reader.IsEmptyElement)
-                  preNodeType = XmlNodeType.EndElement;
             }
          }
 
          Data = configValues;
       }
 
-      private static XmlNodeType FastForwardToRootElement([NotNull] XmlReader reader, Stack<ILegacyConfigurationItem> stack)
+      private static void FastForwardToRootElement([NotNull] XmlReader reader, Stack<ILegacyConfigurationItem> stack)
       {
-         var preNodeType = XmlNodeType.None;
-
          while (reader.Read())
          {
-            preNodeType = reader.NodeType;
-
             if (reader.NodeType != XmlNodeType.XmlDeclaration && reader.NodeType != XmlNodeType.ProcessingInstruction)
             {
                stack.Push(new RootLegacyConfigurationItem(reader.LocalName));
                break;
             }
          }
-
-         return preNodeType;
       }
 
       private static void ReadElementContent([NotNull] XmlReader reader, [NotNull] Stack<ILegacyConfigurationItem> stack, [NotNull] IDictionary<string, string> data)
@@ -155,17 +141,6 @@ namespace Thinktecture.Extensions.Configuration.Legacy
             throw new FormatException($"A duplicate key \"{last.ConfigurationPath}\" was found.{reader.GetLineInfo()}");
 
          data[last.ConfigurationPath] = reader.Value;
-      }
-
-      private static void ReadElementEnd(Stack<ILegacyConfigurationItem> stack, XmlNodeType preNodeType, Dictionary<string, string> data)
-      {
-         var last = stack.Pop();
-
-         // TODO: has to be evaluated whether app.config has something like that
-         // If this EndElement node comes right after an Element node and it is not the root element,
-         // it means there is no text/CDATA node in current element
-         // if (preNodeType == XmlNodeType.Element && stack.Count > 0)
-         //    data[last.ConfigurationPath] = String.Empty;
       }
 
       private static void ReadElementStart([NotNull] Stack<ILegacyConfigurationItem> stack, [NotNull] XmlReader reader, [NotNull] IDictionary<string, string> data)
